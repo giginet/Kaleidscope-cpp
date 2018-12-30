@@ -11,8 +11,8 @@ enum Token {
     NUMBER = -5
 };
 
-static std::string g_identifierStr;
-static double g_numVal;
+extern std::string g_identifierStr;
+extern double g_numVal;
 
 static bool isnumberliteral(int c) {
     return isdigit(c) || c == '.';

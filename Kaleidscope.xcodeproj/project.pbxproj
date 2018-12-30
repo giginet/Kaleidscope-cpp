@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07236E7C21D8912600E81E9A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07236E7B21D8912600E81E9A /* main.cpp */; };
 		07236E8421D8921100E81E9A /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07236E8221D8921100E81E9A /* Lexer.cpp */; };
+		07236E8721D8B88900E81E9A /* ExprAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07236E8521D8B88900E81E9A /* ExprAST.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,9 @@
 		07236E7B21D8912600E81E9A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		07236E8221D8921100E81E9A /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		07236E8321D8921100E81E9A /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
+		07236E8521D8B88900E81E9A /* ExprAST.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExprAST.cpp; sourceTree = "<group>"; };
+		07236E8621D8B88900E81E9A /* ExprAST.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExprAST.hpp; sourceTree = "<group>"; };
+		07483E7021D8C3C90088B61B /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,9 @@
 				07236E7B21D8912600E81E9A /* main.cpp */,
 				07236E8221D8921100E81E9A /* Lexer.cpp */,
 				07236E8321D8921100E81E9A /* Lexer.hpp */,
+				07236E8521D8B88900E81E9A /* ExprAST.cpp */,
+				07236E8621D8B88900E81E9A /* ExprAST.hpp */,
+				07483E7021D8C3C90088B61B /* Utility.h */,
 			);
 			path = Kaleidscope;
 			sourceTree = "<group>";
@@ -125,6 +132,7 @@
 			files = (
 				07236E8421D8921100E81E9A /* Lexer.cpp in Sources */,
 				07236E7C21D8912600E81E9A /* main.cpp in Sources */,
+				07236E8721D8B88900E81E9A /* ExprAST.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
