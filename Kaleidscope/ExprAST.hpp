@@ -80,7 +80,7 @@ extern std::unique_ptr<ExprAST> parsePrimary();
 extern std::unique_ptr<ExprAST> parseIdentifierExpr();
 extern std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_ptr<ExprAST> lhs);
 extern std::unique_ptr<PrototypeAST> parsePrototype();
-extern std::unique_ptr<FunctionAST> parseDifinition();
+extern std::unique_ptr<FunctionAST> parseDefinition();
 extern std::unique_ptr<PrototypeAST> parseExtern();
 extern std::unique_ptr<FunctionAST> parseTopLevelExpr();
 extern int getTokenPrecedence();

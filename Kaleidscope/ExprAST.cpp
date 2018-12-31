@@ -63,6 +63,8 @@ std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_
 }
 
 std::unique_ptr<ExprAST> parsePrimary() {
+    printf("%c %d\n", cursorToken, cursorToken);
+    
     switch (cursorToken) {
         default:
             return LogError("unknown token when expecting an expression");
@@ -137,7 +139,7 @@ std::unique_ptr<PrototypeAST> parsePrototype() {
     return std::make_unique<PrototypeAST>(functionName, std::move(argumentNames));
 }
 
-std::unique_ptr<FunctionAST> parseDifinition() {
+std::unique_ptr<FunctionAST> parseDefinition() {
     getNextToken();
     auto prototype = parsePrototype();
     
