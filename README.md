@@ -1,5 +1,5 @@
-# Kalaidscope-cpp
+# Kaleidscope-cpp
 
-My kalaidscope implementation.
+My kaleidscope implementation.
 
 https://llvm.org/docs/tutorial/index.html
