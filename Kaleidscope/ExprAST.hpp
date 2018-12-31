@@ -4,12 +4,9 @@
 #include <string>
 #include <vector>
 #include "Lexer.hpp"
+#include "GlobalVariables.h"
 
-extern int cursorToken;
-
-static inline int getNextToken() {
-    return cursorToken = getToken();
-}
+extern int getNextToken();
 
 class ExprAST {
 public:
@@ -74,5 +71,11 @@ public:
     : prototype(std::move(prototype))
     , body(std::move(body)) { }
 };
+
+extern std::unique_ptr<ExprAST> parseNumberExpr();
+extern std::unique_ptr<ExprAST> parseParenExpr();
+extern std::unique_ptr<ExprAST> parseExpression();
+extern std::unique_ptr<ExprAST> parsePrimary();
+extern std::unique_ptr<ExprAST> parseIdentifierExpr();
 
 #endif /* ExprAST_hpp */

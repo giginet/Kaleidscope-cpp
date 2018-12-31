@@ -32,6 +32,7 @@
 		07236E8521D8B88900E81E9A /* ExprAST.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExprAST.cpp; sourceTree = "<group>"; };
 		07236E8621D8B88900E81E9A /* ExprAST.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExprAST.hpp; sourceTree = "<group>"; };
 		07483E7021D8C3C90088B61B /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		07483E7121D8C8200088B61B /* GlobalVariables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 				07236E8521D8B88900E81E9A /* ExprAST.cpp */,
 				07236E8621D8B88900E81E9A /* ExprAST.hpp */,
 				07483E7021D8C3C90088B61B /* Utility.h */,
+				07483E7121D8C8200088B61B /* GlobalVariables.h */,
 			);
 			path = Kaleidscope;
 			sourceTree = "<group>";
@@ -253,18 +255,22 @@
 		07236E8021D8912600E81E9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2AWR7Z4WYE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		07236E8121D8912600E81E9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2AWR7Z4WYE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

@@ -2,6 +2,7 @@
 #define Lexer_hpp
 
 #include <iostream>
+#include "GlobalVariables.h"
 
 enum Token {
     END_OF_FILE = -1, // EOF may conflict
@@ -10,9 +11,6 @@ enum Token {
     IDENTIFIER = -4,
     NUMBER = -5
 };
-
-extern std::string g_identifierStr;
-extern double g_numVal;
 
 static bool isnumberliteral(int c) {
     return isdigit(c) || c == '.';

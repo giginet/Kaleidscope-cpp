@@ -4,13 +4,13 @@
 #include <iostream>
 #include "ExprAST.hpp"
 
-std::unique_ptr<ExprAST> LogError(const char *str) {
-    fprintf(stderr, "LogError %s\n", str);
+std::unique_ptr<ExprAST> LogError(const char *string) {
+    fprintf(stderr, "LogError %s\n", string);
     return nullptr;
 }
 
 std::unique_ptr<PrototypeAST> LogErrorP(const char *string) {
-    LogError(str);
+    LogError(string);
     return nullptr;
 }
 
