@@ -35,8 +35,7 @@ static void handleTopLevelExpression() {
 static void runMainLoop() {
     while (true) {
         fprintf(stderr, "ready> ");
-        
-        switch (cursorToken) {
+        switch (g_cursorToken) {
             case END_OF_FILE:
                 return;
             case ';':

@@ -5,9 +5,9 @@
 #include <vector>
 
 std::unique_ptr<ExprAST> parseNumberExpr() {
-    auto result = std::make_unique<NumberExprAST>(0);
+    auto result = std::make_unique<NumberExprAST>(g_numVal);
     getNextToken();
-    return result;
+    return std::move(result);
 }
 
 std::unique_ptr<ExprAST> parseParanExpr() {
@@ -19,7 +19,7 @@ std::unique_ptr<ExprAST> parseParanExpr() {
         return nullptr;
     }
     
-    if (cursorToken != ')') {
+    if (g_cursorToken != ')') {
         return LogError("expected ')'");
     }
     getNextToken();
@@ -42,7 +42,7 @@ std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_
             return lhs;
         }
         
-        auto binaryOperator = cursorToken;
+        auto binaryOperator = g_cursorToken;
         getNextToken();
         
         auto rhs = parsePrimary();
@@ -63,9 +63,7 @@ std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_
 }
 
 std::unique_ptr<ExprAST> parsePrimary() {
-    printf("%c %d\n", cursorToken, cursorToken);
-    
-    switch (cursorToken) {
+    switch (g_cursorToken) {
         default:
             return LogError("unknown token when expecting an expression");
         case IDENTIFIER:
@@ -82,14 +80,14 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
     
     getNextToken();
     
-    if (cursorToken != '(') {
+    if (g_cursorToken != '(') {
         return std::make_unique<VariableExprAST>(idName);
     }
     
     getNextToken();
     std::vector<std::unique_ptr<ExprAST>> args;
     
-    if (cursorToken != ')') {
+    if (g_cursorToken != ')') {
         while(true) {
             if (auto arg = parseExpression()) {
                 args.push_back(std::move(arg));
@@ -97,11 +95,11 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
                 return nullptr;
             }
             
-            if (cursorToken == ')') {
+            if (g_cursorToken == ')') {
                 break;
             }
             
-            if (cursorToken != ',') {
+            if (g_cursorToken != ',') {
                 return LogError("Expected ')' or ',' in argument list");
             }
             getNextToken();
@@ -114,14 +112,14 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
 }
 
 std::unique_ptr<PrototypeAST> parsePrototype() {
-    if (cursorToken != IDENTIFIER) {
+    if (g_cursorToken != IDENTIFIER) {
         return LogErrorP("Expected function name in prototype");
     }
     
     auto functionName = g_identifierStr;
     getNextToken();
     
-    if (cursorToken != '(') {
+    if (g_cursorToken != '(') {
         return LogErrorP("Expected '(' in prototype.");
     }
     
@@ -130,7 +128,7 @@ std::unique_ptr<PrototypeAST> parsePrototype() {
         argumentNames.push_back(g_identifierStr);
     }
     
-    if (cursorToken != ')') {
+    if (g_cursorToken != ')') {
         return LogErrorP("Expected ')' in prototype");
     }
     
@@ -160,22 +158,26 @@ std::unique_ptr<PrototypeAST> parseExtern() {
 
 std::unique_ptr<FunctionAST> parseTopLevelExpr() {
     if (auto e = parseExpression()) {
-        auto prototype = std::make_unique<PrototypeAST>("", std::vector<std::string>());
+        auto prototype = std::make_unique<PrototypeAST>("__anon_expr", std::vector<std::string>());
         return std::make_unique<FunctionAST>(std::move(prototype), std::move(e));
     }
     return nullptr;
 }
 
 int getNextToken() {
-    return cursorToken = getToken();
+    auto token = getToken();
+    
+    g_cursorToken = token;
+    
+    return g_cursorToken;
 }
 
 int getTokenPrecedence() {
-    if (!isascii(cursorToken)) {
+    if (!isascii(g_cursorToken)) {
         return -1;
     }
     
-    int tokenPrecedence = g_binaryOperatorPrecedences[cursorToken];
+    auto tokenPrecedence = g_binaryOperatorPrecedences[g_cursorToken];
     if (tokenPrecedence <= 0) return -1;
     return tokenPrecedence;
 }

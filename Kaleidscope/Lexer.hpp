@@ -45,7 +45,7 @@ static inline int getToken() {
             lastChar = getchar();
         } while(isnumberliteral(lastChar));
         
-        g_numVal = strtod(numberString.c_str(), 0);
+        g_numVal = strtod(numberString.c_str(), nullptr);
         return NUMBER;
     }
     
@@ -59,7 +59,7 @@ static inline int getToken() {
         }
     }
     
-    if (lastChar != EOF) {
+    if (lastChar == EOF) {
         return END_OF_FILE;
     }
     
