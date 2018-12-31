@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "Lexer.hpp"
 #include "GlobalVariables.h"
 
@@ -77,5 +78,11 @@ extern std::unique_ptr<ExprAST> parseParenExpr();
 extern std::unique_ptr<ExprAST> parseExpression();
 extern std::unique_ptr<ExprAST> parsePrimary();
 extern std::unique_ptr<ExprAST> parseIdentifierExpr();
+extern std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_ptr<ExprAST> lhs);
+extern std::unique_ptr<PrototypeAST> parsePrototype();
+extern std::unique_ptr<FunctionAST> parseDifinition();
+extern std::unique_ptr<PrototypeAST> parseExtern();
+extern std::unique_ptr<FunctionAST> parseTopLevelExpr();
+extern int getTokenPrecedence();
 
 #endif /* ExprAST_hpp */

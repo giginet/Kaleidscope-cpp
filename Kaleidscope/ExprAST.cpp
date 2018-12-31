@@ -28,7 +28,38 @@ std::unique_ptr<ExprAST> parseParanExpr() {
 
 std::unique_ptr<ExprAST> parseExpression() {
     auto lhs = parsePrimary();
-    return nullptr;
+    if (lhs == nullptr) {
+        return nullptr;
+    }
+    return parseBinaryOperatorRHS(0, std::move(lhs));
+}
+
+std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_ptr<ExprAST> lhs) {
+    while (true) {
+        auto tokenPrecedence = getTokenPrecedence();
+        
+        if (tokenPrecedence < exprPrecedence) {
+            return lhs;
+        }
+        
+        auto binaryOperator = cursorToken;
+        getNextToken();
+        
+        auto rhs = parsePrimary();
+        if (rhs == nullptr) {
+            return nullptr;
+        }
+        
+        auto nextPrecedence = getTokenPrecedence();
+        if (tokenPrecedence < nextPrecedence) {
+            rhs = parseBinaryOperatorRHS(tokenPrecedence + 1, std::move(rhs));
+            if (rhs == nullptr) {
+                return nullptr;
+            }
+        }
+        
+        lhs = std::make_unique<BinaryExprAST>(binaryOperator, std::move(lhs), std::move(rhs));
+    }
 }
 
 std::unique_ptr<ExprAST> parsePrimary() {
@@ -78,9 +109,71 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
     getNextToken();
     
     return std::make_unique<CallExprAST>(idName, std::move(args));
+}
+
+std::unique_ptr<PrototypeAST> parsePrototype() {
+    if (cursorToken != IDENTIFIER) {
+        return LogErrorP("Expected function name in prototype");
+    }
     
+    auto functionName = g_identifierStr;
+    getNextToken();
+    
+    if (cursorToken != '(') {
+        return LogErrorP("Expected '(' in prototype.");
+    }
+    
+    std::vector<std::string> argumentNames;
+    while (getNextToken() == IDENTIFIER) {
+        argumentNames.push_back(g_identifierStr);
+    }
+    
+    if (cursorToken != ')') {
+        return LogErrorP("Expected ')' in prototype");
+    }
+    
+    getNextToken();
+    
+    return std::make_unique<PrototypeAST>(functionName, std::move(argumentNames));
+}
+
+std::unique_ptr<FunctionAST> parseDifinition() {
+    getNextToken();
+    auto prototype = parsePrototype();
+    
+    if (prototype == nullptr) {
+        return nullptr;
+    }
+    
+    if (auto e = parseExpression()) {
+        return std::make_unique<FunctionAST>(std::move(prototype), std::move(e));
+    }
+    return nullptr;
+}
+
+std::unique_ptr<PrototypeAST> parseExtern() {
+    getNextToken();
+    return parsePrototype();
+}
+
+std::unique_ptr<FunctionAST> parseTopLevelExpr() {
+    if (auto e = parseExpression()) {
+        auto prototype = std::make_unique<PrototypeAST>("", std::vector<std::string>());
+        return std::make_unique<FunctionAST>(std::move(prototype), std::move(e));
+    }
+    return nullptr;
 }
 
 int getNextToken() {
     return cursorToken = getToken();
+}
+
+int getTokenPrecedence() {
+    if (!isascii(cursorToken)) {
+        return -1;
+    }
+    
+    int tokenPrecedence = g_binaryOperatorPrecedences[cursorToken];
+    if (tokenPrecedence <= 0) return -1;
+    return tokenPrecedence;
 }
