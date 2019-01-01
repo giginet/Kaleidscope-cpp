@@ -181,20 +181,3 @@ int getTokenPrecedence() {
     if (tokenPrecedence <= 0) return -1;
     return tokenPrecedence;
 }
-
-llvm::Value* NumberExprAST::codegen() {
-    return nullptr;
-}
-
-
-llvm::Value* VariableExprAST::codegen() {
-    return nullptr;
-}
-
-llvm::Value* CallExprAST::codegen() {
-    return nullptr;
-}
-
-llvm::Value* BinaryExprAST::codegen() {
-    return nullptr;
-}

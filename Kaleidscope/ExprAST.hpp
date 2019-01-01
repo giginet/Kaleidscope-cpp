@@ -67,6 +67,7 @@ public:
     , args(std::move(args)) { }
     
     const std::string &getName() const { return name; };
+    llvm::Function *codegen();
 };
 
 class FunctionAST {
@@ -77,6 +78,8 @@ public:
     FunctionAST(std::unique_ptr<PrototypeAST> prototype, std::unique_ptr<ExprAST> body)
     : prototype(std::move(prototype))
     , body(std::move(body)) { }
+    
+    llvm::Function *codegen();
 };
 
 extern std::unique_ptr<ExprAST> parseNumberExpr();
