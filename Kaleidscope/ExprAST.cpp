@@ -20,7 +20,7 @@ std::unique_ptr<ExprAST> parseParanExpr() {
     }
     
     if (g_cursorToken != ')') {
-        return LogError("expected ')'");
+        return logError<ExprAST>("expected ')'");
     }
     getNextToken();
     return v;
@@ -65,7 +65,7 @@ std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_
 std::unique_ptr<ExprAST> parsePrimary() {
     switch (g_cursorToken) {
         default:
-            return LogError("unknown token when expecting an expression");
+            return logError<ExprAST>("unknown token when expecting an expression");
         case IDENTIFIER:
             return parseIdentifierExpr();
         case NUMBER:
@@ -100,7 +100,7 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
             }
             
             if (g_cursorToken != ',') {
-                return LogError("Expected ')' or ',' in argument list");
+                return logError<ExprAST>("Expected ')' or ',' in argument list");
             }
             getNextToken();
         }
@@ -113,14 +113,14 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
 
 std::unique_ptr<PrototypeAST> parsePrototype() {
     if (g_cursorToken != IDENTIFIER) {
-        return LogErrorP("Expected function name in prototype");
+        return logError<PrototypeAST>("Expected function name in prototype");
     }
     
     auto functionName = g_identifierStr;
     getNextToken();
     
     if (g_cursorToken != '(') {
-        return LogErrorP("Expected '(' in prototype.");
+        return logError<PrototypeAST>("Expected '(' in prototype.");
     }
     
     std::vector<std::string> argumentNames;
@@ -129,7 +129,7 @@ std::unique_ptr<PrototypeAST> parsePrototype() {
     }
     
     if (g_cursorToken != ')') {
-        return LogErrorP("Expected ')' in prototype");
+        return logError<PrototypeAST>("Expected ')' in prototype");
     }
     
     getNextToken();
@@ -180,4 +180,21 @@ int getTokenPrecedence() {
     auto tokenPrecedence = g_binaryOperatorPrecedences[g_cursorToken];
     if (tokenPrecedence <= 0) return -1;
     return tokenPrecedence;
+}
+
+llvm::Value* NumberExprAST::codegen() {
+    return nullptr;
+}
+
+
+llvm::Value* VariableExprAST::codegen() {
+    return nullptr;
+}
+
+llvm::Value* CallExprAST::codegen() {
+    return nullptr;
+}
+
+llvm::Value* BinaryExprAST::codegen() {
+    return nullptr;
 }

@@ -13,6 +13,7 @@ extern int getNextToken();
 class ExprAST {
 public:
     virtual ~ExprAST() { }
+    virtual llvm::Value *codegen() = 0;
 };
 
 class NumberExprAST: public ExprAST {
@@ -21,6 +22,7 @@ class NumberExprAST: public ExprAST {
 public:
     NumberExprAST(double value)
     : value(value) { }
+    llvm::Value *codegen() override;
 };
 
 class VariableExprAST: public ExprAST {
@@ -29,6 +31,7 @@ class VariableExprAST: public ExprAST {
 public:
     VariableExprAST(const std::string &name)
     : name(name) { }
+    llvm::Value *codegen() override;
 };
 
 class BinaryExprAST: public ExprAST {
@@ -40,6 +43,7 @@ public:
     : op(op)
     , lhs(std::move(lhs))
     , rhs(std::move(rhs)) { }
+    llvm::Value *codegen() override;
 };
 
 class CallExprAST: public ExprAST {
@@ -50,6 +54,7 @@ public:
     CallExprAST(const std::string &callee, std::vector<std::unique_ptr<ExprAST>> args)
     : callee(callee)
     , args(std::move(args)) { }
+    llvm::Value *codegen() override;
 };
 
 class PrototypeAST {
