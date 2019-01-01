@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "llvm.h"
 #include "Lexer.hpp"
 #include "GlobalVariables.h"
 

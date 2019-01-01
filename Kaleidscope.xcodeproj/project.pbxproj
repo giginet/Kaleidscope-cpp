@@ -35,6 +35,7 @@
 		07483E7021D8C3C90088B61B /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		07483E7121D8C8200088B61B /* GlobalVariables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
 		077BF9CB21DAB4C800C92453 /* GlobalVariables.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalVariables.cpp; sourceTree = "<group>"; };
+		077BF9CD21DB44DB00C92453 /* llvm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = llvm.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +76,7 @@
 				07483E7021D8C3C90088B61B /* Utility.h */,
 				07483E7121D8C8200088B61B /* GlobalVariables.h */,
 				077BF9CB21DAB4C800C92453 /* GlobalVariables.cpp */,
+				077BF9CD21DB44DB00C92453 /* llvm.h */,
 			);
 			path = Kaleidscope;
 			sourceTree = "<group>";
@@ -262,6 +264,16 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2AWR7Z4WYE;
+				HEADER_SEARCH_PATHS = /usr/local/opt/llvm/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/7.0.1/lib;
+				OTHER_LDFLAGS = (
+					"-lLLVMDemangle",
+					"-lLLVMSupport",
+					"-lLLVMBinaryFormat",
+					"-lLLVMCore",
+					"-lxml2",
+					"-lcurses",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -273,6 +285,16 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2AWR7Z4WYE;
+				HEADER_SEARCH_PATHS = /usr/local/opt/llvm/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/7.0.1/lib;
+				OTHER_LDFLAGS = (
+					"-lLLVMDemangle",
+					"-lLLVMSupport",
+					"-lLLVMBinaryFormat",
+					"-lLLVMCore",
+					"-lxml2",
+					"-lcurses",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
