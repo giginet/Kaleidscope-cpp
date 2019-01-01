@@ -4,8 +4,12 @@
 #include "GlobalVariables.h"
 
 static void handleDefinition() {
-    if (parseDefinition()) {
-        fprintf(stderr, "Parsed a function definition.\n");
+    if (auto FnAST = parseDefinition()) {
+        if (auto *FnIR = FnAST->codegen()) {
+            fprintf(stderr, "Read function definition:");
+            FnIR->print(llvm::errs());
+            fprintf(stderr, "\n");
+        }
     } else {
         // Skip token for error recovery.
         getNextToken();
@@ -13,8 +17,12 @@ static void handleDefinition() {
 }
 
 static void handleExtern() {
-    if (parseExtern()) {
-        fprintf(stderr, "Parsed an extern\n");
+    if (auto ProtoAST = parseExtern()) {
+        if (auto *FnIR = ProtoAST->codegen()) {
+            fprintf(stderr, "Read extern: ");
+            FnIR->print(llvm::errs());
+            fprintf(stderr, "\n");
+        }
     } else {
         // Skip token for error recovery.
         getNextToken();
@@ -23,14 +31,17 @@ static void handleExtern() {
 
 static void handleTopLevelExpression() {
     // Evaluate a top-level expression into an anonymous function.
-    if (parseTopLevelExpr()) {
-        fprintf(stderr, "Parsed a top-level expr\n");
+    if (auto FnAST = parseTopLevelExpr()) {
+        if (auto *FnIR = FnAST->codegen()) {
+            fprintf(stderr, "Read top-level expression:");
+            FnIR->print(llvm::errs());
+            fprintf(stderr, "\n");
+        }
     } else {
         // Skip token for error recovery.
         getNextToken();
     }
 }
-
 
 static void runMainLoop() {
     while (true) {
@@ -65,8 +76,12 @@ int main(int argc, const char * argv[]) {
     fprintf(stderr, "ready> ");
     getNextToken();
     
+    theModule = llvm::make_unique<llvm::Module>("my cool jit", theContext);
+    
     // Run the main "interpreter loop" now.
     runMainLoop();
+    
+    theModule->print(llvm::errs(), nullptr);
     
     return 0;
 }

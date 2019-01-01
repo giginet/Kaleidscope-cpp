@@ -8,5 +8,5 @@ int g_cursorToken = -1;
 std::map<char, int> g_binaryOperatorPrecedences = {};
 llvm::LLVMContext theContext;
 llvm::IRBuilder<> builder(theContext);
-std::unique_ptr<llvm::Module> theModule = 0;
+std::unique_ptr<llvm::Module> theModule = nullptr;
 std::map<std::string, llvm::Value *> namedValues = {};

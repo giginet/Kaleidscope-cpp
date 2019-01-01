@@ -59,7 +59,6 @@ public:
 
 class PrototypeAST {
     std::string name;
-    std::vector<std::string> args;
     
 public:
     PrototypeAST(const std::string &name, std::vector<std::string> args)
@@ -68,6 +67,8 @@ public:
     
     const std::string &getName() const { return name; };
     llvm::Function *codegen();
+    std::vector<std::string> args;
+
 };
 
 class FunctionAST {

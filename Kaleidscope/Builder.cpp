@@ -1,6 +1,7 @@
 #include "GlobalVariables.h"
 #include "ExprAST.hpp"
 #include <vector>
+#include <map>
 #include "llvm.h"
 #include "Utility.h"
 
@@ -64,13 +65,14 @@ llvm::Value *CallExprAST::codegen() {
 }
 
 llvm::Function *PrototypeAST::codegen() {
-    std::vector<llvm::Type *> doubles(0, llvm::Type::getDoubleTy(theContext));
+    std::vector<llvm::Type *> doubles(args.size(), llvm::Type::getDoubleTy(theContext));
     auto ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(theContext), doubles, false);
     auto f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, name, theModule.get());
     
     unsigned index = 0;
-    for (auto &arg : f->args()) {
-        arg.setName(args[++index]);
+    for (auto &arg : f->args()) { // zip
+        arg.setName(args[index]);
+        ++index;
     }
     return f;
 }
@@ -95,8 +97,8 @@ llvm::Function *FunctionAST::codegen() {
     builder.SetInsertPoint(bb);
     
     namedValues.clear();
-    for (auto &args : theFunction->args()) {
-        namedValues[args.getName()] = &args;
+    for (auto &arg : theFunction->args()) {
+        namedValues[arg.getName().str()] = &arg;
     }
     
     if (auto retval = body->codegen()) {
