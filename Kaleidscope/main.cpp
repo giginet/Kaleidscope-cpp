@@ -2,6 +2,7 @@
 #include "Lexer.hpp"
 #include "ExprAST.hpp"
 #include "GlobalVariables.h"
+#include "KaleidscopeJIT.h"
 
 static void handleDefinition() {
     if (auto FnAST = parseDefinition()) {

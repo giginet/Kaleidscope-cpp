@@ -34,6 +34,7 @@
 		07236E8521D8B88900E81E9A /* ExprAST.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExprAST.cpp; sourceTree = "<group>"; };
 		07236E8621D8B88900E81E9A /* ExprAST.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExprAST.hpp; sourceTree = "<group>"; };
 		0725B65221DB9337008A2FDB /* Builder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Builder.cpp; sourceTree = "<group>"; };
+		0725B65521DC4829008A2FDB /* KaleidscopeJIT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KaleidscopeJIT.h; sourceTree = "<group>"; };
 		07483E7021D8C3C90088B61B /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		07483E7121D8C8200088B61B /* GlobalVariables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
 		077BF9CB21DAB4C800C92453 /* GlobalVariables.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalVariables.cpp; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 				07483E7121D8C8200088B61B /* GlobalVariables.h */,
 				077BF9CB21DAB4C800C92453 /* GlobalVariables.cpp */,
 				077BF9CD21DB44DB00C92453 /* llvm.h */,
+				0725B65521DC4829008A2FDB /* KaleidscopeJIT.h */,
 			);
 			path = Kaleidscope;
 			sourceTree = "<group>";
