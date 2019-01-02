@@ -105,6 +105,8 @@ llvm::Function *FunctionAST::codegen() {
         
         llvm::verifyFunction(*theFunction);
         
+        theFPM->run(*theFunction);
+        
         return theFunction;
     }
     

@@ -76,7 +76,17 @@ int main(int argc, const char * argv[]) {
     fprintf(stderr, "ready> ");
     getNextToken();
     
-    theModule = llvm::make_unique<llvm::Module>("my cool jit", theContext);
+    theModule = std::make_unique<llvm::Module>("my cool jit", theContext);
+    
+    // why legacy?
+    theFPM = std::make_unique<llvm::legacy::FunctionPassManager>(theModule.get());
+    
+    theFPM->add(llvm::createInstructionCombiningPass());
+    theFPM->add(llvm::createReassociatePass());
+    theFPM->add(llvm::createGVNPass());
+    theFPM->add(llvm::createCFGSimplificationPass());
+    
+    theFPM->doInitialization();
     
     // Run the main "interpreter loop" now.
     runMainLoop();

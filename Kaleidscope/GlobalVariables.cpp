@@ -10,3 +10,4 @@ llvm::LLVMContext theContext;
 llvm::IRBuilder<> builder(theContext);
 std::unique_ptr<llvm::Module> theModule = nullptr;
 std::map<std::string, llvm::Value *> namedValues = {};
+std::unique_ptr<llvm::legacy::FunctionPassManager> theFPM = nullptr;

@@ -12,5 +12,6 @@ extern llvm::LLVMContext theContext;
 extern llvm::IRBuilder<> builder;
 extern std::unique_ptr<llvm::Module> theModule;
 extern std::map<std::string, llvm::Value *> namedValues;
+extern std::unique_ptr<llvm::legacy::FunctionPassManager> theFPM;
 
 #endif /* GlobalVariables_h */
