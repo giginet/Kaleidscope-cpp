@@ -72,6 +72,8 @@ std::unique_ptr<ExprAST> parsePrimary() {
             return parseNumberExpr();
         case '(':
             return parseParanExpr();
+        case IF:
+            return parseIfExpr();
     }
 }
 
@@ -109,6 +111,39 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
     getNextToken();
     
     return std::make_unique<CallExprAST>(idName, std::move(args));
+}
+
+std::unique_ptr<ExprAST> parseIfExpr() {
+    getNextToken();
+    
+    auto condition = parseExpression();
+    if (condition == nullptr) {
+        return nullptr;
+    }
+    
+    if (g_cursorToken != THEN) {
+        return logError<ExprAST>("expected then");
+    }
+    getNextToken();
+    
+    auto then = parseExpression();
+    if (then == nullptr) {
+        return nullptr;
+    }
+    if (g_cursorToken != ELSE) {
+        return logError<ExprAST>("expected else");
+    }
+    
+    getNextToken();
+    
+    auto elseAST = parseExpression();
+    if (elseAST != nullptr) {
+        return nullptr;
+    }
+    
+    return llvm::make_unique<IfExprAST>(std::move(condition),
+                                        std::move(then),
+                                        std::move(elseAST));
 }
 
 std::unique_ptr<PrototypeAST> parsePrototype() {

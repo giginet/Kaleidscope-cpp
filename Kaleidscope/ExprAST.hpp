@@ -57,6 +57,21 @@ public:
     std::vector<std::unique_ptr<ExprAST>> args;
 };
 
+
+class IfExprAST: public ExprAST {
+    std::unique_ptr<ExprAST> conditionAST;
+    std::unique_ptr<ExprAST> thenAST;
+    std::unique_ptr<ExprAST> elseAST;
+    
+public:
+    IfExprAST(std::unique_ptr<ExprAST> condition, std::unique_ptr<ExprAST> then, std::unique_ptr<ExprAST> elseAST)
+    : conditionAST(std::move(condition))
+    , thenAST(std::move(then))
+    , elseAST(std::move(elseAST)) { }
+    
+    llvm::Value *codegen() override;
+};
+
 class PrototypeAST {
     std::string name;
     
@@ -88,6 +103,7 @@ extern std::unique_ptr<ExprAST> parseParenExpr();
 extern std::unique_ptr<ExprAST> parseExpression();
 extern std::unique_ptr<ExprAST> parsePrimary();
 extern std::unique_ptr<ExprAST> parseIdentifierExpr();
+extern std::unique_ptr<ExprAST> parseIfExpr();
 extern std::unique_ptr<ExprAST> parseBinaryOperatorRHS(int exprPrecedence, std::unique_ptr<ExprAST> lhs);
 extern std::unique_ptr<PrototypeAST> parsePrototype();
 extern std::unique_ptr<FunctionAST> parseDefinition();

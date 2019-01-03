@@ -127,3 +127,7 @@ llvm::Function *FunctionAST::codegen() {
     theFunction->eraseFromParent();
     return nullptr;
 }
+
+llvm::Value *IfExprAST::codegen() {
+    return nullptr;
+}

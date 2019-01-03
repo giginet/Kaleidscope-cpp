@@ -9,7 +9,10 @@ enum Token {
     DEF = -2,
     EXTERN = -3,
     IDENTIFIER = -4,
-    NUMBER = -5
+    NUMBER = -5,
+    IF = -6,
+    THEN = -7,
+    ELSE = -8,
 };
 
 static bool isnumberliteral(int c) {
@@ -35,6 +38,9 @@ static inline int getToken() {
         if (g_identifierStr == "extern") {
             return EXTERN;
         }
+        if (g_identifierStr == "if") return IF;
+        if (g_identifierStr == "then") return THEN;
+        if (g_identifierStr == "else") return ELSE;
         return IDENTIFIER;
     }
     
