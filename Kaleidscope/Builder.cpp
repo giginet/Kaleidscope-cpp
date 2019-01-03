@@ -4,6 +4,23 @@
 #include "llvm.h"
 #include "Utility.h"
 
+llvm::Function *getFunction(std::string Name) {
+    // First, see if the function has already been added to the current module.
+    if (auto *F = theModule->getFunction(Name)) {
+        return F;
+    }
+    
+    // If not, check whether we can codegen the declaration from some existing
+    // prototype.
+    auto FI = functionProtos.find(Name);
+    if (FI != functionProtos.end()) {
+        return FI->second->codegen();
+    }
+    
+    // If no existing prototype exists, return null.
+    return nullptr;
+}
+
 llvm::Value *NumberExprAST::codegen() {
     return llvm::ConstantFP::get(theContext, llvm::APFloat(value));
 }
@@ -28,9 +45,9 @@ llvm::Value *BinaryExprAST::codegen() {
         case '+':
             return builder.CreateFAdd(l, r, "addtmp");
         case '-':
-            return builder.CreateFAdd(l, r, "subtmp");
+            return builder.CreateFSub(l, r, "subtmp");
         case '*':
-            return builder.CreateFAdd(l, r, "multmp");
+            return builder.CreateFMul(l, r, "multmp");
         case '<':
             l = builder.CreateFCmpULT(l, r, "cmptmp");
             return builder.CreateUIToFP(l, llvm::Type::getDoubleTy(theContext), "booltmp");
@@ -41,7 +58,7 @@ llvm::Value *BinaryExprAST::codegen() {
 }
 
 llvm::Value *CallExprAST::codegen() {
-    auto calleeF = theModule->getFunction(callee);
+    auto calleeF = getFunction(callee);
     if (calleeF == nullptr) {
         logError<CallExprAST>("Unknown function referenced");
         return nullptr;
@@ -77,12 +94,9 @@ llvm::Function *PrototypeAST::codegen() {
 }
 
 llvm::Function *FunctionAST::codegen() {
-    auto theFunction = theModule->getFunction(prototype->getName());
-    
-    if (theFunction == nullptr) {
-        theFunction = prototype->codegen();
-    }
-    
+    auto &P = *prototype;
+    functionProtos[prototype->getName()] = std::move(prototype);
+    auto *theFunction = getFunction(P.getName());
     if (theFunction == nullptr) {
         return nullptr;
     }
@@ -97,7 +111,7 @@ llvm::Function *FunctionAST::codegen() {
     
     namedValues.clear();
     for (auto &arg : theFunction->args()) {
-        namedValues[arg.getName().str()] = &arg;
+        namedValues[arg.getName()] = &arg;
     }
     
     if (auto retval = body->codegen()) {

@@ -311,9 +311,31 @@
 					"-lcurses",
 					"-lm",
 					"-lxml2",
+					"-rdynamic",
+					"-lLLVMOrcJIT",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				WARNING_LDFLAGS = (
+					"-fPIC",
+					"-Werror=date-time",
+					"-Werror=unguarded-availability-new",
+					"-std=c++11",
+					"-Wall",
+					"-Wextra",
+					"-Wno-unused-parameter",
+					"-Wwrite-strings",
+					"-Wcast-qual",
+					"-Wmissing-field-initializers",
+					"-pedantic",
+					"-Wno-long-long",
+					"-Wcovered-switch-default",
+					"-Wnon-virtual-dtor",
+					"-Wdelete-non-virtual-dtor",
+					"-Wstring-conversion",
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+				);
 			};
 			name = Debug;
 		};
@@ -364,9 +386,31 @@
 					"-lcurses",
 					"-lm",
 					"-lxml2",
+					"-rdynamic",
+					"-lLLVMOrcJIT",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				WARNING_LDFLAGS = (
+					"-fPIC",
+					"-Werror=date-time",
+					"-Werror=unguarded-availability-new",
+					"-std=c++11",
+					"-Wall",
+					"-Wextra",
+					"-Wno-unused-parameter",
+					"-Wwrite-strings",
+					"-Wcast-qual",
+					"-Wmissing-field-initializers",
+					"-pedantic",
+					"-Wno-long-long",
+					"-Wcovered-switch-default",
+					"-Wnon-virtual-dtor",
+					"-Wdelete-non-virtual-dtor",
+					"-Wstring-conversion",
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+				);
 			};
 			name = Release;
 		};
