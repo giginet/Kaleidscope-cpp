@@ -129,5 +129,50 @@ llvm::Function *FunctionAST::codegen() {
 }
 
 llvm::Value *IfExprAST::codegen() {
+    auto conditionalValue = conditionAST->codegen();
+    if (conditionalValue == nullptr) {
+        return  nullptr;
+    }
+    
+    conditionalValue = builder.CreateFCmpONE(conditionalValue,
+                                             llvm::ConstantFP::get(theContext,
+                                                                   llvm::APFloat(0.0)),
+                                             "ifcond");
+    
+    auto theFunction = builder.GetInsertBlock()->getParent();
+    auto thenBasicBlock = llvm::BasicBlock::Create(theContext, "then", theFunction);
+    auto elseBasicBlock = llvm::BasicBlock::Create(theContext, "else");
+    auto mergeBasicBlock = llvm::BasicBlock::Create(theContext, "ifcont");
+    
+    builder.CreateCondBr(conditionalValue, thenBasicBlock, elseBasicBlock);
+    
+    builder.SetInsertPoint(thenBasicBlock);
+    
+    auto thenV = thenAST->codegen();
+    if (thenV == nullptr) {
+        return nullptr;
+    }
+    
+    builder.CreateBr(mergeBasicBlock);
+    thenBasicBlock = builder.GetInsertBlock();
+    
+    theFunction->getBasicBlockList().push_back(elseBasicBlock);
+    builder.SetInsertPoint(elseBasicBlock);
+    
+    auto elseV = elseAST->codegen();
+    if (elseV == nullptr) {
+        return nullptr;
+    }
+    
+    builder.CreateBr(mergeBasicBlock);
+    elseBasicBlock = builder.GetInsertBlock();
+    
+    theFunction->getBasicBlockList().push_back(mergeBasicBlock);
+    builder.SetInsertPoint(mergeBasicBlock);
+    auto pn = builder.CreatePHI(llvm::Type::getDoubleTy(theContext), 2, "ifcmp");
+    
+    pn->addIncoming(thenV, thenBasicBlock);
+    pn->addIncoming(elseV, elseBasicBlock);
+    
     return nullptr;
 }
